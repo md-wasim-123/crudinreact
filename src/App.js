@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import React from 'react'
 import './App.css';
+import { Routes, Route } from "react-router-dom";
+import LoginPage from './pages/LoginPage'
+import Navbar from './components/Navbar'
+import NoPage from './pages/NoPage';
+import ListData from './pages/ListData';
+import { useSelector } from 'react-redux';
+import Editdata from './components/Editdata';
 
-function App() {
+const App = () => {
+  const log = useSelector((state) => state.logged)
+  console.log(log)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='bg-color'>
+      <Navbar />
+      <Routes>
+        {!log ?
+          (<Route path="/" element={<LoginPage />} />
+          )
+          : (
+            <>
+            <Route path="list" element={<ListData />} />
+            <Route path="edit/:id" element={<Editdata />} />
+            </>
+          )
+        }
+        <Route path="*" element={<NoPage />} />
+      </Routes>
+
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
+
